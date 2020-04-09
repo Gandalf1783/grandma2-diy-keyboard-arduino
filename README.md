@@ -13,4 +13,4 @@ MIDI is sent via Serial.write method, which has advantages:
 1. If your Arduino doesnt support "native" MIDI, you can use Hairless MIDI serial bridge. 
 2. If it does, no need to worry. It can be set in the software.
 
-
+A deeper explanation and how to use it, with the exact keymapping will be added later.
