@@ -1,3 +1,7 @@
+#define LED_ERROR 11
+#define LED_STATE 12
+#define LED_RUN 13
+
 #include <Keypad.h>
 
 char hexaKeys[4][4] = {
@@ -6,6 +10,7 @@ char hexaKeys[4][4] = {
   {'8', '9', 'A', 'B'},
   {'C', 'D', 'E', 'F'},
 };
+
 //Pins for keypad 1
 byte colPins[4] = {31, 33, 35, 37};
 byte rowPins[4] = {36, 34, 32, 30};
@@ -19,44 +24,55 @@ Keypad keypad2 = Keypad( makeKeymap(hexaKeys), rowPins2, colPins2, 4, 4);
 
 void setup() {
   //Setting up LEDs
-  pinMode(13, OUTPUT);
-  pinMode(12, OUTPUT);
-  pinMode(11, OUTPUT);
-  //Setting RUN LED to HIGH
-  digitalWrite(11, HIGH);
+  pinMode(LED_ERROR, OUTPUT);
+  pinMode(LED_STATE, OUTPUT);
+  pinMode(LED_RUN, OUTPUT);
+
+  //Resetting any LEDs
+  digitalWrite(LED_ERROR, LOW);
+  digitalWrite(LED_RUN, LOW);
+  digitalWrite(LED_STATE, LOW);
   
   //Beginning Serial on Baudrate 115200
   Serial.begin(115200);
   Serial.println("grandMA2 onPC MIDI<->Controller Software");
   Serial.println("created by Gandalf1783");
-  //Turning on all LEDs after another
-  for (int i = 1; i < 4; i++) {
-    int j = i + 10;
-    digitalWrite(j, HIGH);
-    delay(250);
-  }
-  //Turning off all LEDs after another
-  for (int i = 1; i < 4; i++) {
-    int j = i + 10;
-    digitalWrite(j, LOW);
-    delay(250);
-  }
 
+  //Just a short animation so the user knows that the software is loading.
+
+  digitalWrite(LED_RUN, HIGH);
+  delay(250);
+  digitalWrite(LED_STATE, HIGH);
+  delay(250);
+  digitalWrite(LED_ERROR, HIGH);
+  delay(250);
+  digitalWrite(LED_RUN, LOW);
+  delay(250);
+  digitalWrite(LED_STATE, LOW);
+  delay(250);
+  digitalWrite(LED_ERROR, LOW);
+  delay(250);
+  
   Serial.println("Loading...");
-
-
+  
+  //Setting LED_RUN to HIGH (indicates working and loaded product)
+  digitalWrite(LED_RUN, HIGH);
   Serial.println("Done.");
 }
 
 void loop() {
+  digitalWrite(LED_STATE, LOW);
   char customKey = keypad1.getKey();
   char customKey2 = keypad2.getKey();
   sendKeys1(customKey);
   sendKeys2(customKey2);
+  delay(30);
 }
+
 void sendKeys1(char customKey) {
   if (customKey) {
-        switch (customKey) {
+    digitalWrite(LED_STATE, HIGH);
+    switch (customKey) {
       case '0':
         Serial.write(B10010000);
         Serial.write(1);
@@ -155,7 +171,8 @@ void sendKeys1(char customKey) {
 
 void sendKeys2(char customKey) {
   if (customKey) {
-         switch (customKey) {
+    digitalWrite(LED_STATE, HIGH);
+    switch (customKey) {
       case '0':
         Serial.write(B10010000);
         Serial.write(17);
@@ -300,6 +317,6 @@ void sendKeys2(char customKey) {
         Serial.write(32);
         Serial.write(0);
         break;
-    } 
+    }
   }
 }
