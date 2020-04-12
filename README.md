@@ -1,5 +1,5 @@
 # grandma2-diy-keyboard-arduino
-GrandMA2 onPC DIY-Keyboard.
+grandMA2 onPC DIY-Keyboard.
 
 
 This project lets you create an MidiRemote for grandMA2 onPC.
@@ -14,3 +14,9 @@ MIDI is sent via Serial.write method, which has advantages:
 2. If it does, no need to worry. It can be set in the software.
 
 A deeper explanation and how to use it, with the exact keymapping will be added later.
+
+
+
+
+
+grandMA, Arduino, MIDI and used Libraries are part of their respective Owners. This is not meant to copy the work, but instead use the work to create something new. If you are not okay with it, please contact me and i will take it down.
