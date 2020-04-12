@@ -1,0 +1,38 @@
+#define SERIAL_BAUDRATE 115200
+
+void setup() {
+  Serial.begin(SERIAL_BAUDRATE);
+
+
+  byte message[] = {
+    0xF0, 0x7F, //Begin Command (DO NOT CHANGE)
+    
+    0x7F, //Device ID. Use 00-6F for an idividual ID, 70-7E as 1-15 Group ID, and 7F for Broadcast
+    
+    0x02, //Sets it as MSC Message ( DO NOT CHANGE)
+    
+    0x7F, //Command Format 01: General Light, 02: Moving Light, 7F: All
+    0x06, //Command: 06: Set
+    
+    0x0E, // Fader. 00 is Fader 1, 01 is Fader 2, ... 0E (Value 14) is Fader 15
+    0x01, // Page number. 01 is Page 1, 02 is Page 2 ...
+    0x7F, // Fader Fine Value. (Raw value is 76)
+    0x7F, // Fader Course Value. (Raw value is 57)
+    
+    0x00,// Time in Hours
+    0x00, // Time in Minutes
+    0x0A, // Time in Seconds
+    0x00, // Time in Frame
+    0x00, // Time in Fraction
+    //Note: When e.g. seconds are over 60, eg. 70, that means one hour and 10 minutes. 
+    
+    0xF7 };  //End MSC Message (DO NOT CHANGE)
+    Serial.write(message, sizeof(message));
+
+  
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
